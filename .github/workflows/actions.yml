@@ -22,7 +22,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyodbc
           pip install pandas
-          ACCEPT_EULA=Y apt-get install -y msodbcsql18
+          apt-get install -y msodbcsql18
 
       - name: execute py script # run main.py
         run: python pipeline.py
