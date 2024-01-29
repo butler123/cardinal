@@ -2,6 +2,8 @@ import pyodbc
 import pandas as pd
 import datetime
 
+print("test1")
+
 SERVER = 'butlertestserver123.database.windows.net'
 DATABASE = 'Test'
 USERNAME = 'serverlogin123'
@@ -11,6 +13,8 @@ connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DA
 
 conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
+
+print("test2")
 
 def is_int(s):
     try:
