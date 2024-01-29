@@ -28,4 +28,4 @@ jobs:
         run: python pipeline.py
 
       - name: Commit changes
-              uses: EndBug/add-and-commit
+        uses: EndBug/add-and-commit
