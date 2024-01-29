@@ -3,7 +3,7 @@ import pandas as pd
 import datetime
 
 SERVER = 'butlertestserver123.database.windows.net'
-DATABASE = 'Test'
+DATABASE = 'CustomerRatingData'
 USERNAME = 'serverlogin123'
 PASSWORD = 'Database123'
 connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
@@ -95,19 +95,19 @@ cursor.execute('''
 
 ## insert the data into the database
 for index, row in df1.iterrows():
-    cursor.execute("INSERT INTO Test.dbo.customer_rating_agency_a_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
+    cursor.execute("INSERT INTO CustomerRatingData.dbo.customer_rating_agency_a_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
 
 for index, row in df2.iterrows():
-    cursor.execute("INSERT INTO Test.dbo.customer_rating_agency_b_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
+    cursor.execute("INSERT INTO CustomerRatingData.dbo.customer_rating_agency_b_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
 
 for index, row in df3.iterrows():
-    cursor.execute("INSERT INTO Test.dbo.customer_rating_agency_c_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
+    cursor.execute("INSERT INTO CustomerRatingData.dbo.customer_rating_agency_c_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
 
 for index, row in df4.iterrows():
-    cursor.execute("INSERT INTO Test.dbo.customer_rating_agency_d_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
+    cursor.execute("INSERT INTO CustomerRatingData.dbo.customer_rating_agency_d_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
 
 
@@ -116,10 +116,10 @@ conn.commit()
 
 ## perform the aggregations using the data in the database
 
-customer_rating_sum_a = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_a_inc").fetchall()[0][0]
-customer_rating_sum_b = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_b_inc").fetchall()[0][0]
-customer_rating_sum_c = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_c_inc").fetchall()[0][0]
-customer_rating_sum_d = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_d_inc").fetchall()[0][0]
+customer_rating_sum_a = cursor.execute("SELECT SUM(customer_rating) FROM CustomerRatingData.dbo.customer_rating_agency_a_inc").fetchall()[0][0]
+customer_rating_sum_b = cursor.execute("SELECT SUM(customer_rating) FROM CustomerRatingData.dbo.customer_rating_agency_b_inc").fetchall()[0][0]
+customer_rating_sum_c = cursor.execute("SELECT SUM(customer_rating) FROM CustomerRatingData.dbo.customer_rating_agency_c_inc").fetchall()[0][0]
+customer_rating_sum_d = cursor.execute("SELECT SUM(customer_rating) FROM CustomerRatingData.dbo.customer_rating_agency_d_inc").fetchall()[0][0]
 customer_rating_sum_arr = [customer_rating_sum_a, customer_rating_sum_b, customer_rating_sum_c, customer_rating_sum_d]
 
 loaded_cust_num_count_a = cursor.execute("SELECT COUNT(customer_number) FROM customer_rating_agency_a_inc").fetchall()[0][0]
