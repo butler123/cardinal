@@ -2,21 +2,14 @@ import pyodbc
 import pandas as pd
 import datetime
 
-print("test1")
-
 SERVER = 'butlertestserver123.database.windows.net'
 DATABASE = 'Test'
 USERNAME = 'serverlogin123'
 PASSWORD = 'Database123'
-
 connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
 
 conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
-
-print("test2")
-customer_rating_sum_a = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_a_inc").fetchall()[0][0]
-print(customer_rating_sum_a)
 
 def is_int(s):
     try:
