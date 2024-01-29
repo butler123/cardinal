@@ -8,9 +8,12 @@ USERNAME = 'serverlogin123'
 PASSWORD = 'Database123'
 connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DATABASE={DATABASE};UID={USERNAME};PWD={PASSWORD}'
 
+## connect to database
 conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
 
+## in_int function applies to dataframes and removes all rows containing non-numeric values in the specified column
+## this is used to remove rows where the customer number cannot be imported into the DB because of messy data
 def is_int(s):
     try:
         float(s)
@@ -36,8 +39,10 @@ df4 = pd.read_csv("Customer Rating Agency D Inc.csv")
 cust_num_count_d = df4[df4.columns[0]].count()
 df4 = df4[df4['customer_number'].apply(is_int)]
 
+## array containing the counts of customer_number for the original datasets
 cust_num_count_arr = [cust_num_count_a, cust_num_count_b, cust_num_count_c, cust_num_count_d]
 
+## drop tables in the DB if they already exist
 cursor.execute('''
     DROP TABLE IF EXISTS customer_rating_agency_a_inc
     ''')
@@ -51,6 +56,7 @@ cursor.execute('''
     DROP TABLE IF EXISTS customer_rating_agency_d_inc
     ''')
 
+## create the DB tables
 cursor.execute('''
     CREATE TABLE customer_rating_agency_a_inc (
         Customer_number int, 
@@ -87,6 +93,7 @@ cursor.execute('''
         )
     ''')
 
+## insert the data into the database
 for index, row in df1.iterrows():
     cursor.execute("INSERT INTO Test.dbo.customer_rating_agency_a_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
@@ -107,6 +114,7 @@ for index, row in df4.iterrows():
 conn.commit()
 
 
+## perform the aggregations using the data in the database
 
 customer_rating_sum_a = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_a_inc").fetchall()[0][0]
 customer_rating_sum_b = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_b_inc").fetchall()[0][0]
@@ -143,7 +151,7 @@ data = {'customer_rating_agency': customer_rating_agency_arr, 'customer_number_c
     'high_value_count': high_value_count_arr, 'failed_customer_number_count': failed_customer_number_count_arr, 'failed_customer_number_percentage': failed_customer_number_percentage_arr}
 
 
-
+## create the dataframe for the output report
 output_df = pd.DataFrame(data)
 
 
@@ -151,8 +159,5 @@ output_df = pd.DataFrame(data)
 today = datetime.datetime.today().strftime('%Y%m%d')
 filename = 'Customer_Rating_Aggregate_Report_' + today + '.csv'
 
+## output the report to a csv file
 output_df.to_csv(filename, index=False)
-
-
-
-
