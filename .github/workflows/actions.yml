@@ -25,5 +25,8 @@ jobs:
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
       - name: execute py script # run main.py
-        uses: EndBug/add-and-commit@v9
         run: python pipeline.py
+
+      - name: Commit changes
+              if: ${{ success() }}
+              uses: EndBug/add-and-commit@v9
