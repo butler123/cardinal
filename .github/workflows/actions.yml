@@ -25,9 +25,5 @@ jobs:
           sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
 
       - name: execute py script # run main.py
+        uses: EndBug/add-and-commit@v9
         run: python pipeline.py
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "crongenerated"
-          git push
