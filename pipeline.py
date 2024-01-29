@@ -15,6 +15,8 @@ conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
 
 print("test2")
+customer_rating_sum_a = cursor.execute("SELECT SUM(customer_rating) FROM Test.dbo.customer_rating_agency_a_inc").fetchall()[0][0]
+print(customer_rating_sum_a)
 
 def is_int(s):
     try:
