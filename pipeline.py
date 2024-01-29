@@ -13,7 +13,7 @@ conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
 
 ## in_int function applies to dataframes and removes all rows containing non-numeric values in the specified column
-## this is used to remove rows where the customer number cannot be imported into the DB because of messy data
+## this is used to remove rows where the customer number cannot be imported into the DB because of messy data, it is assumed that those rows are discarded
 def is_int(s):
     try:
         float(s)
