@@ -2,7 +2,7 @@ name: run pipeline.py
 
 on:
   schedule:
-    - cron: "22 16 * * *" # At 17:00 everyday
+    - cron: '22 16 * * *' # At 17:00 everyday
 
 permissions: write-all
 
