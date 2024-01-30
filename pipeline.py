@@ -12,7 +12,7 @@ connectionString = f'DRIVER={{ODBC Driver 18 for SQL Server}};SERVER={SERVER};DA
 conn = pyodbc.connect(connectionString)
 cursor = conn.cursor()
 
-## in_int function applies to dataframes and removes all rows containing non-numeric values in the specified column
+## is_int function applies to dataframes and removes all rows containing non-numeric values in the specified column
 ## this is used to remove rows where the customer number cannot be imported into the DB because of messy data, it is assumed that those rows are discarded
 def is_int(s):
     try:
@@ -109,7 +109,6 @@ for index, row in df3.iterrows():
 for index, row in df4.iterrows():
     cursor.execute("INSERT INTO CustomerRatingData.dbo.customer_rating_agency_d_inc (Customer_number,Customer_rating,Customer_rating_limit, Customer_status) values(?,?,?,?)", \
     row.customer_number, row.customer_rating, row.customer_rating_limit, row.customer_status)
-
 
 conn.commit()
 
